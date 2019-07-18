@@ -1,42 +1,48 @@
 <!--================Courses Area =================-->
 <section class="courses_area p_120">
-  <div class="container">
+  <div class="container-fluid" style="margin-left: 7vh">
     <div class="main_title">
       <h2>Popular Programs</h2>
       <!--      <p>There is a moment in the life of any aspiring astronomer that it is time to buy that first-->
       <!--        telescope. It’s exciting to think about setting up your own viewing station.</p>-->
     </div>
 
-    <div class="row courses_inner col-sm-12 col-md-6 col-lg-4 col-xl-3"
-         style="display: inline-block"
-         *ngFor="let programModel of programsList; index as i">
-      <div class="card"
-           style="width:500px; height: 500px;margin-left: 3px;margin-right: 3px;margin-bottom:30px">
-        <div class="course_item" style="width: 100%">
+    <div class="row justify-content-start">
+      <div class="courses_inner col-sm-12 col-md-6 col-xl-3 col-lg-3"
+           style="display: inline-block"
+           *ngFor="let programModel of programsList; index as i">
+        <div>
+          <div class="card"
+               style="height: 400px; margin-bottom: 50px;margin-right: 20px; border: #e6e6e6 1px solid">
+            <div class="course_item">
 
-          <ng-container
-            *ngIf="programModel.Image!=null; then imgNotNull; else imgNull">
-          </ng-container>
-          <ng-template #imgNotNull>
-            <img src="{{programModel.Image}}" alt=""
-                 style="object-fit: cover; width:500px; height: 500px">
-          </ng-template>
-          <ng-template #imgNull>
-            <img src="../../assets/images/bualiem.png" alt=""
-                 style="object-fit: cover; width:500px; height: 500px">
-          </ng-template>
+              <ng-container
+                *ngIf="programModel.Image!=null; then imgNotNull; else imgNull">
+              </ng-container>
+              <ng-template #imgNotNull>
+                <img src="{{programModel.Image}}" alt=""
+                     style="width: 100%; height:400px; object-fit: cover; border: #e6e6e6 1px solid">
+              </ng-template>
+              <ng-template #imgNull>
+                <img src="../../assets/images/bualiem.png" alt=""
+                     style="width: 100%; height:400px; object-fit: cover; border: #e6e6e6 1px solid">
+              </ng-template>
 
-          <!--          <img src="{{programModel.Image}}" alt=""-->
-          <!--               style="object-fit: cover; width: 30vh">-->
-          <div class="hover_text">
-            <a class="cat" href="courses/{{programModel.Id}}">View Courses</a>
-            <a style="text-shadow: 1px 1px #000000" href="program-detail/{{programModel.Id}}">
-              <h4>{{programModel.Name}}</h4></a>
-            <ul class="list" style="display: inline-block">
-              <li><a href="#"><i class="lnr lnr-users"></i> 355</a></li>
-              <li><a href="#"><i class="lnr lnr-bubble"></i> 35</a></li>
-              <li><a href="#"><i class="lnr lnr-user"></i> T. Robert</a></li>
-            </ul>
+              <!--          <img src="{{programModel.Image}}" alt=""-->
+              <!--               style="object-fit: cover; width: 30vh">-->
+              <div class="hover_text">
+                <a class="cat" href="courses/{{programModel.Id}}">View Courses</a><br/>
+                <!--                <a class="cat" href="courses/{{programModel.Id}}">View Courses</a>-->
+                <a href="program-detail/{{programModel.Id}}">
+                  <h4 style="text-shadow: 0px 0px 7px #000000">{{programModel.Name}}</h4>
+                </a>
+                <!--                <ul class="list" style="display: inline-block">-->
+                <!--                  <li><a href="#"><i class="lnr lnr-users"></i> 355</a></li>-->
+                <!--                  <li><a href="#"><i class="lnr lnr-bubble"></i> 35</a></li>-->
+                <!--                  <li><a href="#"><i class="lnr lnr-user"></i> T. Robert</a></li>-->
+                <!--                </ul>-->
+              </div>
+            </div>
           </div>
         </div>
       </div>
