@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ResgisterStudent} from '../models/resgisterStudent';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Component({
@@ -11,16 +11,16 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 })
 export class RegisterComponent implements OnInit {
 
-  courseId: number;
+  formId: number;
   registerStudent: ResgisterStudent;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
-    console.log(this.route.snapshot.paramMap.get('cId'));
-    if (this.route.snapshot.paramMap.get('cId') == null) {
+  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient) {
+    console.log(this.route.snapshot.paramMap.get('fId'));
+    if (this.route.snapshot.paramMap.get('fId') == null) {
     } else {
-      this.courseId = +this.route.snapshot.paramMap.get('cId');
+      this.formId = +this.route.snapshot.paramMap.get('fId');
     }
-    if (this.courseId == null || isNaN(this.courseId)) {
+    if (this.formId == null || isNaN(this.formId)) {
       //redirect error
     } else {
       this.registerStudent = {
@@ -29,8 +29,7 @@ export class RegisterComponent implements OnInit {
         Phone: '',
         Dob: '',
         Sex: false,
-        IsPayment: false,
-        CourseId: this.courseId,
+        AdmissionFormId: this.formId,
         Parent_Name: '',
         Parent_Gmail: '',
         Parent_Phone: '',
@@ -43,6 +42,9 @@ export class RegisterComponent implements OnInit {
   }
 
   submitEnroll() {
+    const splitted = this.registerStudent.Dob.split('-', 3);
+    this.registerStudent.Dob = splitted[1] + '/' + splitted[2] + '/' + splitted[0];
+    console.log(this.registerStudent.Dob);
     const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/RegistrationStudent/RegisterCourse';
     const body = new HttpParams()
       .set('Name', this.registerStudent.Name)
@@ -50,8 +52,7 @@ export class RegisterComponent implements OnInit {
       .set('Phone', this.registerStudent.Phone)
       .set('Dob', this.registerStudent.Dob)
       .set('Sex', this.registerStudent.Sex + '')
-      .set('IsPayment', this.registerStudent.IsPayment + '')
-      .set('CourseId', this.registerStudent.CourseId + '')
+      .set('AdmissionFormId', this.registerStudent.AdmissionFormId + '')
       .set('Parent_Name', this.registerStudent.Parent_Name)
       .set('Parent_Gmail', this.registerStudent.Name)
       .set('Parent_Phone', this.registerStudent.Parent_Phone)
@@ -64,6 +65,14 @@ export class RegisterComponent implements OnInit {
         console.log(err);
       }
     );
-    // this.redirectToAllProgram();
+    this.redirectToCourses();
+  }
+
+  changedGender() {
+    this.registerStudent.Sex = !this.registerStudent.Sex;
+  }
+
+  redirectToCourses() {
+    this.router.navigateByUrl('courses');
   }
 }

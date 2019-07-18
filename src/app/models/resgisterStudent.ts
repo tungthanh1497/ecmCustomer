@@ -4,8 +4,7 @@ export class ResgisterStudent {
   Phone: string;
   Dob: string;
   Sex: boolean;
-  IsPayment: boolean;
-  CourseId: number;
+  AdmissionFormId: number;
   Parent_Name: string;
   Parent_Gmail: string;
   Parent_Phone: string;

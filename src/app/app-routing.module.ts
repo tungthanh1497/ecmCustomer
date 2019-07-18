@@ -24,7 +24,7 @@ const routes: Routes = [
       }
       , {path: 'program-detail/:pId', component: ProgramDetailComponent}
       , {path: 'course-detail/:cId', component: CourseDetailComponent}
-      , {path: 'enroll/:cId', component: RegisterComponent}
+      , {path: 'enroll/:fId', component: RegisterComponent}
       , {path: '**', component: ErrorComponent}
     ]
   }

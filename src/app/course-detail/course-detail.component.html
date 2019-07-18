@@ -1,4 +1,3 @@
-
 <!--================Course Details Area =================-->
 <section class="course_details_area p_120" xmlns="http://www.w3.org/1999/html">
   <div class="container">
@@ -161,18 +160,26 @@
       <div class="col-lg-4">
         <div class="c_details_list">
           <ul class="list">
-            <li><a href="#">Trainer’s Name <span>George Mathews</span></a></li>
-            <li><a href="#">Subject <span>{{courseModel.Subject.Name}}</span></a></li>
-            <li><a href="#">Course Fee <span>${{courseModel.Fee}}</span></a></li>
-            <li><a href="#">Total Session <span>{{courseModel.TotalSession}}</span></a></li>
+            <li><a>Trainer’s Name <span>George Mathews</span></a></li>
+            <li><a>Subject <span>{{courseModel.Subject.Name}}</span></a></li>
+            <li><a>Course Fee <span>${{courseModel.Fee}}</span></a></li>
+            <li><a>Total Session <span>{{courseModel.TotalSession}}</span></a></li>
           </ul>
-          <a class="main_btn" (click)="displayEnroll($event)">Enroll the Course</a>
+          <ng-container *ngIf="formsList.length<1; then disableBtn;else elseBtn"></ng-container>
+          <ng-template #disableBtn>
+            <a class="disable_btn">This course is in closed status.</a>
+          </ng-template>
+          <ng-template #elseBtn>
+            <a class="main_btn" (click)="displayEnroll($event)">Enroll the Course</a>
+          </ng-template>
+
         </div>
         <div class="c_details_list fade" id="fromGroups">
-          <div class="list-group">
-            <a href="#" class="list-group-item">Type 1: Mon, Wed, Fri (17:30-20-30)</a>
-            <a href="#" class="list-group-item">Type 2: Tue, Thu, Sat (18:00-21:00)</a>
-            <a href="#" class="list-group-item">Type 3: Fri, Sat, Sun (15:00-18:00)</a>
+          <div class="list-group" *ngFor="let formModel of formsList; index as i">
+            <a href="enroll/{{formModel.Id}}" class="list-group-item">Type {{i + 1}}: <span
+              *ngFor="let dayInWeek of formModel.Weeks">
+              {{dayInWeek.DayOfWeek}}
+            </span> ({{formModel.Slot.From}}-{{formModel.Slot.To}})</a>
           </div>
         </div>
       </div>

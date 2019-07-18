@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -8,7 +8,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class ProgramDetailComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     console.log(this.route.snapshot.paramMap.get('pId'));

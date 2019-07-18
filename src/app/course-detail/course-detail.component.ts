@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Program} from '../models/program';
+import {RegisterForm} from '../models/registerForm';
 import {Course} from '../models/course';
 
 @Component({
@@ -25,6 +25,7 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
   courseModel: Course;
   courseId: number;
   isShowingEnroll = false;
+  formsList: RegisterForm[] = [];
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {
   }
@@ -96,6 +97,28 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
         console.log(res);
         this.courseModel = res;
         console.log(this.courseModel);
+        this.getAvailbleForms(this.courseModel.Id);
+      },
+      error => {
+        console.log(error);
+      });
+  }
+
+  getAvailbleForms(cId: number) {
+    const body = new HttpParams()
+      .set('courseId', '' + cId)
+      .set('centerId', '1');
+
+    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetAllAdmissionForm';
+    this.http.get<RegisterForm[]>(configUrl, {params: body}).toPromise().then(res => {
+        console.log(res);
+        const tempList = res;
+        console.log(tempList);
+        for (const formModel of tempList) {
+          if (!formModel.IsClosed) {
+            this.formsList.push(formModel);
+          }
+        }
       },
       error => {
         console.log(error);

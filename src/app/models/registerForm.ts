@@ -2,15 +2,16 @@ import {Center} from './center';
 import {Building} from './building';
 import {Course} from './course';
 import {Slot} from './slot';
+import {Week} from './week';
 
-export class ResgisterForm {
-  Building: Building;
-  Center: Center;
-  Course: Course;
+export class RegisterForm {
+  $id: string;
   Id: number;
-  IsClosed: boolean;
+  Course: Course;
   Name: string;
-  Slot: Slot;
   StartDate: string;
-  Week: any;
+  Slot: Slot;
+  Weeks: Week[];
+  Building: Building;
+  IsClosed: boolean;
 }

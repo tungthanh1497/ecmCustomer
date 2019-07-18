@@ -1,4 +1,4 @@
-.inline-style{
+.inline-style {
   display: inline-block;
   width: 20vh;
   height: 250px;
@@ -14,6 +14,6 @@
   border-radius: 0
 }
 
-section{
+section {
   margin-top: 100px;
 }
