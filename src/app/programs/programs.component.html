@@ -12,7 +12,9 @@
            style="display: inline-block"
            *ngFor="let programModel of programsList; index as i">
         <div>
-          <div class="card"
+          <div class="card flipInX animated"
+               (mouseenter)="mouseEnterEvent($event)"
+               (mouseleave)="mouseLeaveEvent($event)"
                style="height: 400px; margin-bottom: 50px;margin-right: 20px; border: #e6e6e6 1px solid">
             <div class="course_item">
 

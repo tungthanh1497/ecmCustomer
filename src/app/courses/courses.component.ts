@@ -76,5 +76,13 @@ export class CoursesComponent implements OnInit {
         console.log(error);
       });
   }
+  mouseEnterEvent(evt: any) {
+    evt.currentTarget.className = evt.currentTarget.className.replace('flipInX', '');
+    evt.currentTarget.className += ' pulse';
+  }
+
+  mouseLeaveEvent(evt: any) {
+    evt.currentTarget.className = evt.currentTarget.className.replace('pulse', '');
+  }
 
 }

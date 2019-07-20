@@ -46,9 +46,7 @@
           <!--          </div>-->
           <div class="tab-pane fade active show" id="description" role="tabpanel"
                aria-labelledby="description-tab">
-            <div class="objctive_text">
-              <p>{{courseModel.Description}}</p>
-            </div>
+            <div class="objctive_text" [innerHTML]="courseModel.Description"></div>
           </div>
           <!--          <div class="tab-pane fade active" id="contact" role="tabpanel"-->
           <!--               aria-labelledby="contact-tab">-->

@@ -12,7 +12,9 @@
            style="display: inline-block"
            *ngFor="let courseModel of coursesList; index as i">
         <div>
-          <div class="card"
+          <div class="card flipInX animated"
+               (mouseenter)="mouseEnterEvent($event)"
+               (mouseleave)="mouseLeaveEvent($event)"
                style="height: 400px; margin-bottom: 50px;margin-right: 20px; border: #e6e6e6 1px solid">
             <div class="course_item">
 
@@ -30,7 +32,8 @@
 
               <!--          <img src="{{programModel.Image}}" alt=""-->
               <!--               style="object-fit: cover; width: 30vh">-->
-              <div class="hover_text" style="background: #000000; opacity: 0.64; width: 100%;padding:20px;padding-top: 30px">
+              <div class="hover_text"
+                   style="background: #000000; opacity: 0.64; width: 100%;padding:20px;padding-top: 30px">
                 <!--            <a class="cat" href="courses/{{courseModel.Id}}">View Courses</a>-->
 
                 <!--                <a class="cat" href="courses/">{{courseModel.Name}}</a>-->

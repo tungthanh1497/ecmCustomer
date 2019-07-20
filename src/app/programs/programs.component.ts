@@ -17,6 +17,7 @@ import {Center} from '../models/center';
     , '../../assets/vendors/popup/magnific-popup.css'
     , '../../assets/css/style.css'
     , '../../assets/css/responsive.css'
+    , '../../assets/css/animate.css'
   ]
 })
 
@@ -62,4 +63,13 @@ export class ProgramsComponent implements OnInit {
       });
   }
 
+
+  mouseEnterEvent(evt: any) {
+    evt.currentTarget.className = evt.currentTarget.className.replace('flipInX', '');
+    evt.currentTarget.className += ' pulse';
+  }
+
+  mouseLeaveEvent(evt: any) {
+    evt.currentTarget.className = evt.currentTarget.className.replace('pulse', '');
+  }
 }

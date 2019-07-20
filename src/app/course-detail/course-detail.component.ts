@@ -61,10 +61,12 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
     // }
     const currentContent = document.getElementById('fromGroups');
     if (!this.isShowingEnroll) {
-      currentContent.className += ' active show';
+      currentContent.className += ' active show fadeInDown';
       evt.currentTarget.innerHTML = 'Cancel';
     } else {
+      currentContent.className += ' fadeOutUp';
       currentContent.className = currentContent.className.replace('active', '');
+      currentContent.className = currentContent.className.replace('fadeInDown', '');
       currentContent.className = currentContent.className.replace('show', '');
       evt.currentTarget.innerHTML = 'Enroll this course';
     }
