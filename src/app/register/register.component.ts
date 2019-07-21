@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ResgisterStudent} from '../models/resgisterStudent';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {Course} from '../models/course';
+import {RegisterForm} from '../models/registerForm';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +14,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 export class RegisterComponent implements OnInit {
 
   formId: number;
+  courseId: number;
   registerStudent: ResgisterStudent;
 
   constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient) {
@@ -39,6 +42,23 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getCourseIdByFormId(this.formId);
+  }
+
+  getCourseIdByFormId(fId: number) {
+    const body = new HttpParams()
+      .set('admissionFormId', '' + fId)
+      .set('centerId', '1');
+
+    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetAdmissionFormById';
+    this.http.get<RegisterForm>(configUrl, {params: body}).toPromise().then(res => {
+        console.log(res);
+        this.courseId = res.Course.Id;
+        console.log(this.courseId);
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   submitEnroll() {
@@ -73,6 +93,6 @@ export class RegisterComponent implements OnInit {
   }
 
   redirectToCourses() {
-    this.router.navigateByUrl('courses');
+    this.router.navigateByUrl('course-detail/' + this.courseId);
   }
 }

@@ -32,14 +32,20 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto">
-              <li class="nav-item" [class.active]="urlName=='homepage'"><a class="nav-link"
-                                                                           href="homepage">Home</a>
+              <li class="nav-item animated" [class.active]="urlName=='homepage'"
+                  (mouseenter)="mouseEnterEvent($event)"
+                  (mouseleave)="mouseLeaveEvent($event)"><a class="nav-link"
+                                                            href="homepage">Home</a>
               </li>
-              <li class="nav-item" [class.active]="urlName=='programs'"><a class="nav-link"
-                                                                           href="programs">Programs</a>
+              <li class="nav-item animated" [class.active]="urlName=='programs'"
+                  (mouseenter)="mouseEnterEvent($event)"
+                  (mouseleave)="mouseLeaveEvent($event)"><a class="nav-link"
+                                                            href="programs">Programs</a>
               </li>
-              <li class="nav-item" [class.active]="urlName=='courses'"><a class="nav-link"
-                                                                          href="courses">Courses</a>
+              <li class="nav-item animated" [class.active]="urlName=='courses'"
+                  (mouseenter)="mouseEnterEvent($event)"
+                  (mouseleave)="mouseLeaveEvent($event)"><a class="nav-link"
+                                                            href="courses">Courses</a>
               </li>
               <!--              <li class="nav-item"><a class="nav-link" href="about-us.html">About</a></li>-->
               <!--              <li class="nav-item submenu dropdown">-->

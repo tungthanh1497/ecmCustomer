@@ -66,4 +66,14 @@ export class HeaderMenuComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  mouseEnterEvent(evt: any) {
+    evt.currentTarget.className = evt.currentTarget.className.replace('flipInX', '');
+    evt.currentTarget.className += ' pulse';
+  }
+
+  mouseLeaveEvent(evt: any) {
+    evt.currentTarget.className = evt.currentTarget.className.replace('pulse', '');
+  }
+
 }
