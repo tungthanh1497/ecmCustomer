@@ -158,9 +158,9 @@
       <div class="col-lg-4">
         <div class="c_details_list">
           <ul class="list">
-            <li><a>Trainer’s Name <span>George Mathews</span></a></li>
+            <li><a>Program <span>{{courseModel.Program.Name}}</span></a></li>
             <li><a>Subject <span>{{courseModel.Subject.Name}}</span></a></li>
-            <li><a>Course Fee <span>${{courseModel.Fee}}</span></a></li>
+            <li><a>Course Fee <span>{{courseModel.Fee}}VND</span></a></li>
             <li><a>Total Session <span>{{courseModel.TotalSession}}</span></a></li>
           </ul>
           <ng-container *ngIf="formsList.length<1; then disableBtn;else elseBtn"></ng-container>
