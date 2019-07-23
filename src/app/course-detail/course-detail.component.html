@@ -2,7 +2,7 @@
 <section class="course_details_area p_120" xmlns="http://www.w3.org/1999/html">
   <div class="container">
     <div class="main_title">
-      <h2>Course Detail</h2>
+      <h2>Thông tin chi tiết khoá học</h2>
       <!--      <p>There is a moment in the life of any aspiring astronomer that it is time to buy that first-->
       <!--        telescope. It’s exciting to think about setting up your own viewing station.</p>-->
     </div>
@@ -20,7 +20,7 @@
           <li class="nav-item">
             <a class="nav-link active" id="description-tab" data-toggle="tab" role="tab"
                aria-controls="description" aria-selected="false"
-               (click)="switchTab($event, 'description')">Description</a>
+               (click)="switchTab($event, 'description')">Giới thiệu</a>
           </li>
           <!--          <li class="nav-item">-->
           <!--            <a class="nav-link active" id="contact-tab" data-toggle="tab" role="tab"-->
@@ -158,26 +158,31 @@
       <div class="col-lg-4">
         <div class="c_details_list">
           <ul class="list">
-            <li><a>Program <span>{{courseModel.Program.Name}}</span></a></li>
-            <li><a>Subject <span>{{courseModel.Subject.Name}}</span></a></li>
-            <li><a>Course Fee <span>{{courseModel.Fee}}VND</span></a></li>
-            <li><a>Total Session <span>{{courseModel.TotalSession}}</span></a></li>
+            <li><a>Chương trình: <span>{{courseModel.Program.Name}}</span></a></li>
+            <li><a>Môn học: <span>{{courseModel.Subject.Name}}</span></a></li>
+            <li><a>Học phí: <span>{{courseModel.Fee}}VND</span></a></li>
+            <li><a>Số bài học: <span>{{courseModel.TotalSession}}</span></a></li>
           </ul>
           <ng-container *ngIf="formsList.length<1; then disableBtn;else elseBtn"></ng-container>
           <ng-template #disableBtn>
-            <a class="disable_btn">This course is in closed status.</a>
+            <a class="disable_btn">Đang cập nhật</a>
           </ng-template>
           <ng-template #elseBtn>
-            <a class="main_btn" (click)="displayEnroll($event)">Enroll the Course</a>
+            <a class="main_btn" (click)="displayEnroll($event)">Đăng kí tham gia</a>
           </ng-template>
 
         </div>
         <div class="c_details_list fade" id="fromGroups">
           <div class="list-group" *ngFor="let formModel of formsList; index as i">
-            <a href="enroll/{{formModel.Id}}" class="list-group-item">Type {{i + 1}}: <span
-              *ngFor="let dayInWeek of formModel.Weeks">
-              {{dayInWeek.DayOfWeek}}
-            </span> ({{formModel.Slot.From}}-{{formModel.Slot.To}})</a>
+            <a href="enroll/{{formModel.Id}}" class="list-group-item">
+              <!--              Type {{i + 1}}: -->
+              <span>Ngày học: </span>
+              <span *ngFor="let dayInWeek of formModel.Weeks; index as i">
+              {{getDayById(dayInWeek.DayOfWeek)}}
+                <span *ngIf="i<(formModel.Weeks.length-1)">, </span>
+            </span><br/>
+              Giờ học: {{formModel.Slot.From}}-{{formModel.Slot.To}}</a>
+
           </div>
         </div>
       </div>

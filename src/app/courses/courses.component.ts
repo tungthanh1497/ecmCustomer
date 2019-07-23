@@ -23,6 +23,7 @@ export class CoursesComponent implements OnInit {
 
   isAllCourses: boolean;
   programId: number;
+  programName: string;
   coursesList: Course[];
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {
@@ -41,6 +42,7 @@ export class CoursesComponent implements OnInit {
     } else if (isNaN(this.programId)) {
       //redirect error
     } else {
+      this.getProgramById(this.programId);
       this.getAllCoursesByProgram(this.programId);
     }
   }
@@ -76,6 +78,7 @@ export class CoursesComponent implements OnInit {
         console.log(error);
       });
   }
+
   mouseEnterEvent(evt: any) {
     evt.currentTarget.className = evt.currentTarget.className.replace('flipInX', '');
     evt.currentTarget.className += ' pulse';
@@ -85,4 +88,20 @@ export class CoursesComponent implements OnInit {
     evt.currentTarget.className = evt.currentTarget.className.replace('pulse', '');
   }
 
+  private getProgramById(pId: number) {
+    const body = new HttpParams()
+      .set('programId', '' + pId)
+      .set('centerId', '1');
+
+    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetProgramById';
+    this.http.get<Program>(configUrl, {params: body}).toPromise().then(res => {
+        console.log(res);
+        this.programName = res.Name;
+        console.log(this.programName);
+      },
+      error => {
+        console.log(error);
+      });
+
+  }
 }

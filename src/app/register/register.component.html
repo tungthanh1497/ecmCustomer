@@ -1,81 +1,85 @@
 <section class="course_details_area p_120">
   <div class="container">
     <div class="main_title">
-      <h2>ResgisterStudent Form</h2>
+      <h2>Đăng kí tham gia khoá học</h2>
       <!--      <p>There is a moment in the life of any aspiring astronomer that it is time to buy that first-->
       <!--        telescope. It’s exciting to think about setting up your own viewing station.</p>-->
     </div>
 
     <form class="form-horizontal" (ngSubmit)="submitEnroll()">
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="name">Name:</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="name" placeholder="Enter student name"
-                 name="name" [(ngModel)]="registerStudent.Name">
+      <div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="name">Tên học viên:</label>
+          <div class="col-sm-10">
+            <input class="form-control" id="name" placeholder="Enter student name"
+                   name="name" [(ngModel)]="registerStudent.Name">
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="email">Email:</label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" placeholder="Enter email"
-                 name="email" [(ngModel)]="registerStudent.Email">
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="email">Email:</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="email" placeholder="Enter email"
+                   name="email" [(ngModel)]="registerStudent.Email">
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="phone">Phone:</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="phone" placeholder="Enter phone number"
-                 name="phone" [(ngModel)]="registerStudent.Phone">
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="phone">Số điện thoại:</label>
+          <div class="col-sm-10">
+            <input class="form-control" id="phone" placeholder="Enter phone number"
+                   name="phone" [(ngModel)]="registerStudent.Phone">
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="dob">Date of Birth:</label>
-        <div class="col-sm-10">
-          <input type="date" class="form-control" id="dob" placeholder="Enter date of birth"
-                 name="dob" [(ngModel)]="registerStudent.Dob">
-          <!--          <input type="date" class="form-control" id="dob" placeholder="Enter date of birth"-->
-          <!--                 name="dob" [(ngModel)]="dob">-->
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="dob">Ngày sinh:</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" id="dob" placeholder="Enter date of birth"
+                   name="dob" [(ngModel)]="registerStudent.Dob">
+            <!--          <input type="date" class="form-control" id="dob" placeholder="Enter date of birth"-->
+            <!--                 name="dob" [(ngModel)]="dob">-->
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="dob">Gender:</label>
-        <div class="col-sm-10">
-          <label class="radio-inline">
-            <input type="radio" name="sex" id="male" [value]="true"
-                   [(ngModel)]="registerStudent.Sex" (change)="changedGender()">Male
-          </label>
-          <label class="radio-inline" style="margin-left: 100px">
-            <input type="radio" name="sex" id="female" [value]="false"
-                   [(ngModel)]="registerStudent.Sex">Female
-          </label>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="dob">Giới tính:</label>
+          <div class="col-sm-10">
+            <label class="radio-inline">
+              <input type="radio" name="sex" id="male" [value]="true"
+                     [(ngModel)]="registerStudent.Sex" (change)="changedGender()">Male
+            </label>
+            <label class="radio-inline" style="margin-left: 100px">
+              <input type="radio" name="sex" id="female" [value]="false"
+                     [(ngModel)]="registerStudent.Sex">Female
+            </label>
+          </div>
         </div>
+        <!--      <div class="form-group">-->
+        <!--        <label class="control-label col-sm-2" for="sex">Sex:</label>-->
+        <!--        <div class="col-sm-10">-->
+        <!--          <input class="form-control" id="sex" placeholder="Enter sex"-->
+        <!--                 name="sex"[(ngModel)]="registerStudent.Sex">-->
+        <!--        </div>-->
+        <!--      </div>-->
       </div>
-      <!--      <div class="form-group">-->
-      <!--        <label class="control-label col-sm-2" for="sex">Sex:</label>-->
-      <!--        <div class="col-sm-10">-->
-      <!--          <input class="form-control" id="sex" placeholder="Enter sex"-->
-      <!--                 name="sex"[(ngModel)]="registerStudent.Sex">-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="Parent_Name">Parent Name:</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="Parent_Name" placeholder="Enter parent name"
-                 name="Parent_Name" [(ngModel)]="registerStudent.Parent_Name">
+      <div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="Parent_Name">Tên phụ huynh:</label>
+          <div class="col-sm-10">
+            <input class="form-control" id="Parent_Name" placeholder="Enter parent name"
+                   name="Parent_Name" [(ngModel)]="registerStudent.Parent_Name">
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="Parent_Gmail">Parent Email:</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="Parent_Gmail" placeholder="Enter parent email"
-                 name="Parent_Gmail" [(ngModel)]="registerStudent.Parent_Gmail">
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="Parent_Gmail">Email phụ huynh:</label>
+          <div class="col-sm-10">
+            <input class="form-control" id="Parent_Gmail" placeholder="Enter parent email"
+                   name="Parent_Gmail" [(ngModel)]="registerStudent.Parent_Gmail">
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="Parent_Phone">Parent Phone:</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="Parent_Phone" placeholder="Enter parent phone number"
-                 name="Parent_Phone" [(ngModel)]="registerStudent.Parent_Phone">
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="Parent_Phone">Số điện thoại phụ huynh:</label>
+          <div class="col-sm-10">
+            <input class="form-control" id="Parent_Phone" placeholder="Enter parent phone number"
+                   name="Parent_Phone" [(ngModel)]="registerStudent.Parent_Phone">
+          </div>
         </div>
       </div>
       <!--      <div class="form-group">-->
@@ -94,7 +98,7 @@
       <!--      </div>-->
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button (click)="submitEnroll()" type="submit" class="btn btn-default">Submit</button>
+          <button (click)="submitEnroll()" type="submit" class="btn btn-default">Đăng kí</button>
         </div>
       </div>
     </form>

@@ -26,6 +26,7 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
   courseId: number;
   isShowingEnroll = false;
   formsList: RegisterForm[] = [];
+  dayInWeek: string[] = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {
   }
@@ -62,13 +63,13 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
     const currentContent = document.getElementById('fromGroups');
     if (!this.isShowingEnroll) {
       currentContent.className += ' active show fadeInDown';
-      evt.currentTarget.innerHTML = 'Cancel';
+      evt.currentTarget.innerHTML = 'Huỷ';
     } else {
       currentContent.className += ' fadeOutUp';
       currentContent.className = currentContent.className.replace('active', '');
       currentContent.className = currentContent.className.replace('fadeInDown', '');
       currentContent.className = currentContent.className.replace('show', '');
-      evt.currentTarget.innerHTML = 'Enroll this course';
+      evt.currentTarget.innerHTML = 'Đăng kí tham gia';
     }
     this.isShowingEnroll = !this.isShowingEnroll;
   }
@@ -125,6 +126,13 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
       error => {
         console.log(error);
       });
+  }
+
+  getDayById(dId: number) {
+    if (dId >= 0 && dId < this.dayInWeek.length) {
+      return this.dayInWeek[dId];
+    }
+    return dId;
   }
 
 }
