@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Course} from '../models/course';
 import {RegisterForm} from '../models/registerForm';
+import {APIContext, APICustomer} from '../APIContext';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +13,9 @@ import {RegisterForm} from '../models/registerForm';
     , '../../assets/plugins/bootstrap/css/bootstrap.min.css']
 })
 export class RegisterComponent implements OnInit {
+
+  apiContext = new APIContext();
+  apiCustomer = new APICustomer();
 
   formId: number;
   courseId: number;
