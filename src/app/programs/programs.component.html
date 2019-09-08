@@ -33,11 +33,13 @@
               <!--          <img src="{{programModel.Image}}" alt=""-->
               <!--               style="object-fit: cover; width: 30vh">-->
               <div class="hover_text">
-                <a class="cat" href="courses/{{programModel.Id}}">Xem khoá học chi tiết</a><br/>
+                <a class="cat" href="javascript:;"
+                   (click)="redirectToUrl(centerId+'/'+urlCustomer.courses+'/'+programModel.Id)">
+                  Xem khoá học chi tiết</a><br/>
                 <!--                <a class="cat" href="courses/{{programModel.Id}}">View Courses</a>-->
-<!--                <a href="program-detail/{{programModel.Id}}">-->
-                  <h4 style="text-shadow: 0px 0px 7px #000000">{{programModel.Name}}</h4>
-<!--                </a>-->
+                <!--                <a href="program-detail/{{programModel.Id}}">-->
+                <h4 style="text-shadow: 0px 0px 7px #000000">{{programModel.Name}}</h4>
+                <!--                </a>-->
                 <!--                <ul class="list" style="display: inline-block">-->
                 <!--                  <li><a href="#"><i class="lnr lnr-users"></i> 355</a></li>-->
                 <!--                  <li><a href="#"><i class="lnr lnr-bubble"></i> 35</a></li>-->

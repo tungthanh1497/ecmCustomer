@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {UrlCustomer} from '../SiteUrlContext';
+import {HeaderMenuComponent} from '../header-menu/header-menu.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -17,11 +20,25 @@ import {Component, OnInit} from '@angular/core';
   ]
 })
 export class HomepageComponent implements OnInit {
+  urlCustomer = new UrlCustomer();
+  centerId: number;
 
-  constructor() {
+  constructor(private router: Router) {
+  }
+
+  redirectToUrl(url: string) {
+    HeaderMenuComponent.currentUrl = url;
+    this.router.navigateByUrl(url);
   }
 
   ngOnInit() {
+    if (HeaderMenuComponent.centerId == null) {
+      console.log('hic');
+      //redirect error
+    } else {
+      this.centerId = HeaderMenuComponent.centerId;
+      console.log('yea');
+    }
   }
 
 }

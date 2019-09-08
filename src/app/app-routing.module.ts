@@ -11,7 +11,7 @@ import {RegisterComponent} from './register/register.component';
 
 const routes: Routes = [
   {
-    path: '', component: HeaderMenuComponent, children: [
+    path: ':centerId', component: HeaderMenuComponent, children: [
       {path: '', redirectTo: 'homepage', pathMatch: 'full'}
       , {path: 'homepage', component: HomepageComponent}
       , {path: 'programs', component: ProgramsComponent}

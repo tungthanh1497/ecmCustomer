@@ -159,9 +159,10 @@
       <div class="col-lg-4">
         <div class="c_details_list">
           <ul class="list">
-            <li><a>Chương trình: <span>{{courseModel.Program.Name}}</span></a></li>
+
+            <li><a>Chương trình: <span class="nameSpan">{{courseModel.Program.Name}}</span></a></li>
             <li><a>Môn học: <span>{{courseModel.Subject.Name}}</span></a></li>
-            <li><a>Học phí: <span>{{courseModel.Fee}}VND</span></a></li>
+            <li><a>Học phí: <span>{{courseModel.Fee | currency : "VND":''}}VND</span></a></li>
             <li><a>Số bài học: <span>{{courseModel.TotalSession}}</span></a></li>
           </ul>
           <ng-container *ngIf="formsList.length<1; then disableBtn;else elseBtn"></ng-container>
@@ -208,40 +209,67 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body" style="max-height: 70vh;overflow-y: scroll">
-        <form class="form-horizontal" (ngSubmit)="submitEnroll()">
+        <form class="form-horizontal" (ngSubmit)="checkValidFields()">
           <div>
             <div class="form-group">
-              <label class="control-label" for="name">Tên học viên:</label>
+              <label class="control-label" for="name">Tên học viên <span
+                class="error-msg">(*)</span>:</label>
               <div class="col-sm-10">
                 <input class="form-control" id="name" placeholder="Enter student name"
-                       name="name" [(ngModel)]="registerStudent.Name">
+                       name="name" [(ngModel)]="registerStudent.Name"
+                       required
+                       (change)="checkValidName()"
+                       (focusout)="checkValidName()">
+              </div>
+              <div class="error-msg" *ngIf="errorMsgName!=null && errorMsgName.length>1">
+                {{errorMsgName}}
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label" for="email">Email:</label>
+              <label class="control-label" for="email">Email <span
+                class="error-msg">(*)</span>:</label>
               <div class="col-sm-10">
                 <input type="email" class="form-control" id="email" placeholder="Enter email"
-                       name="email" [(ngModel)]="registerStudent.Email">
+                       name="email" [(ngModel)]="registerStudent.Email"
+                       required
+                       (change)="checkValidEmail()"
+                       (focusout)="checkValidEmail()">
+              </div>
+              <div class="error-msg" *ngIf="errorMsgMail!=null && errorMsgMail.length>1">
+                {{errorMsgMail}}
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label" for="phone">Số điện thoại:</label>
+              <label class="control-label" for="phone">Số điện thoại <span
+                class="error-msg">(*)</span>:</label>
               <div class="col-sm-10">
                 <input class="form-control" id="phone" placeholder="Enter phone number"
-                       name="phone" [(ngModel)]="registerStudent.Phone">
+                       name="phone" [(ngModel)]="registerStudent.Phone" required
+                       (keypress)="isInputNumber($event)"
+                       (change)="checkValidPhone()"
+                       (focusout)="checkValidPhone()">
+              </div>
+              <div class="error-msg" *ngIf="errorMsgPhone!=null && errorMsgPhone.length>1">
+                {{errorMsgPhone}}
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label" for="dob">Ngày sinh:</label>
+              <label class="control-label" for="dob">Ngày sinh <span
+                class="error-msg">(*)</span>:</label>
               <div class="col-sm-10">
                 <input type="date" class="form-control" id="dob" placeholder="Enter date of birth"
-                       name="dob" [(ngModel)]="registerStudent.Dob">
+                       name="dob" [(ngModel)]="registerStudent.Dob"
+                       required (change)="checkValidDob()" (focusout)="checkValidDob()">
                 <!--          <input type="date" class="form-control" id="dob" placeholder="Enter date of birth"-->
                 <!--                 name="dob" [(ngModel)]="dob">-->
               </div>
+              <div class="error-msg" *ngIf="errorMsgDob!=null && errorMsgDob.length>1">
+                {{errorMsgDob}}
+              </div>
             </div>
             <div class="form-group">
-              <label class="control-label" for="dob">Giới tính:</label>
+              <label class="control-label" for="dob">Giới tính <span
+                class="error-msg">(*)</span>:</label>
               <div class="col-sm-10">
                 <ng-container
                   *ngIf="registerStudent.Sex; then isMale; else isFemale"></ng-container>
@@ -276,7 +304,7 @@
           </div>
           <div>
             <div class="form-group">
-              <label class="control-label" for="Parent_Name">Tên phụ huynhTên phụ huynh:</label>
+              <label class="control-label" for="Parent_Name">Tên phụ huynh:</label>
               <div class="col-sm-10">
                 <input class="form-control" id="Parent_Name" placeholder="Enter parent name"
                        name="Parent_Name" [(ngModel)]="registerStudent.Parent_Name">
@@ -304,7 +332,8 @@
       <div class="modal-footer">
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button (click)="submitEnroll()" type="submit" class="btn btn-default">Đăng kí</button>
+            <button (click)="checkValidFields()" type="submit" class="btn btn-default">Đăng kí
+            </button>
           </div>
         </div>
       </div>

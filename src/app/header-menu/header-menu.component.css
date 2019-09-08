@@ -3,3 +3,12 @@
   top: 0;
   width: 100%;
 }
+
+
+.title-page{
+  font-size:25px;
+  font-family: Impact, Charcoal, sans-serif;
+}
+.title-page:hover{
+  color: #4dbf1c;
+}

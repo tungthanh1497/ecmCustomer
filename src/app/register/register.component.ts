@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
 
   apiContext = new APIContext();
   apiCustomer = new APICustomer();
+  centerId: number;
 
   formId: number;
   courseId: number;
@@ -40,21 +41,30 @@ export class RegisterComponent implements OnInit {
         Parent_Name: '',
         Parent_Gmail: '',
         Parent_Phone: '',
-        CenterId: 1
+        CenterId: this.centerId
       };
     }
   }
 
   ngOnInit() {
-    this.getCourseIdByFormId(this.formId);
+    console.log(this.route.snapshot.paramMap.get('centerId'));
+    if (this.route.snapshot.paramMap.get('centerId') == null) {
+    } else {
+      this.centerId = +this.route.snapshot.paramMap.get('centerId');
+    }
+    if (this.centerId == null || isNaN(this.centerId)) {
+      //redirect error
+    } else {
+      this.getCourseIdByFormId(this.formId);
+    }
   }
 
   getCourseIdByFormId(fId: number) {
     const body = new HttpParams()
       .set('admissionFormId', '' + fId)
-      .set('centerId', '1');
+      .set('centerId', this.centerId + '');
 
-    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetAdmissionFormById';
+    const configUrl = this.apiContext.host + this.apiCustomer.getAdmissionFormById;
     this.http.get<RegisterForm>(configUrl, {params: body}).toPromise().then(res => {
         console.log(res);
         this.courseId = res.Course.Id;
@@ -69,7 +79,7 @@ export class RegisterComponent implements OnInit {
     const splitted = this.registerStudent.Dob.split('-', 3);
     this.registerStudent.Dob = splitted[1] + '/' + splitted[2] + '/' + splitted[0];
     console.log(this.registerStudent.Dob);
-    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/RegistrationStudent/RegisterCourse';
+    const configUrl = this.apiContext.host + this.apiCustomer.registerCourse;
     const body = new HttpParams()
       .set('Name', this.registerStudent.Name)
       .set('Email', this.registerStudent.Email)

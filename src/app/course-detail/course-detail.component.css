@@ -45,3 +45,16 @@ section {
 /*  background: grey;*/
 /*  color: #000;*/
 /*}*/
+
+.error-msg{
+  color: #a94442;
+}
+
+
+.nameSpan{
+  display: inline;
+  width: 60%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

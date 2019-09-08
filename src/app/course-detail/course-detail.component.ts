@@ -4,6 +4,10 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {RegisterForm} from '../models/registerForm';
 import {Course} from '../models/course';
 import {ResgisterStudent} from '../models/resgisterStudent';
+import {APIContext, APICustomer} from '../APIContext';
+import {ToastrService} from 'ngx-toastr';
+import {HeaderMenuComponent} from '../header-menu/header-menu.component';
+import {UrlCustomer} from '../SiteUrlContext';
 
 @Component({
   selector: 'app-course-detail',
@@ -22,6 +26,11 @@ import {ResgisterStudent} from '../models/resgisterStudent';
   ]
 })
 export class CourseDetailComponent implements OnInit, AfterViewInit {
+
+  apiContext = new APIContext();
+  apiCustomer = new APICustomer();
+  centerId: number;
+  urlCustomer = new UrlCustomer();
 
   courseModel: Course;
   courseId: number;
@@ -43,20 +52,35 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
     Parent_Phone: '',
     CenterId: 1
   };
+  errorMsgName = '-';
+  errorMsgMail = '-';
+  errorMsgPhone = '-';
+  errorMsgDob = '-';
 
-  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient) {
+  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private toastr: ToastrService) {
+  }
+
+  redirectToUrl(url: string) {
+    HeaderMenuComponent.currentUrl = url;
+    this.router.navigateByUrl(url);
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('cId'));
-    if (this.route.snapshot.paramMap.get('cId') == null) {
-    } else {
-      this.courseId = +this.route.snapshot.paramMap.get('cId');
-    }
-    if (this.courseId == null || isNaN(this.courseId)) {
+    if (HeaderMenuComponent.centerId == null) {
+      console.log('hic');
       //redirect error
     } else {
-      this.getCourse(this.courseId);
+      this.centerId = HeaderMenuComponent.centerId;
+      console.log(this.route.snapshot.paramMap.get('cId'));
+      if (this.route.snapshot.paramMap.get('cId') == null) {
+      } else {
+        this.courseId = +this.route.snapshot.paramMap.get('cId');
+      }
+      if (this.courseId == null || isNaN(this.courseId)) {
+        //redirect error
+      } else {
+        this.getCourse(this.courseId);
+      }
     }
   }
 
@@ -109,13 +133,14 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
   getCourse(cId: number) {
     const body = new HttpParams()
       .set('courseId', '' + cId)
-      .set('centerId', '1');
+      .set('centerId', this.centerId + '');
 
-    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetCourseById';
+    const configUrl = this.apiContext.host + this.apiCustomer.getCourseById;
     this.http.get<Course>(configUrl, {params: body}).toPromise().then(res => {
         console.log(res);
         this.courseModel = res;
         console.log(this.courseModel);
+        console.log(this.courseModel.Fee);
         this.getAvailbleForms(this.courseModel.Id);
       },
       error => {
@@ -126,9 +151,9 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
   getAvailbleForms(cId: number) {
     const body = new HttpParams()
       .set('courseId', '' + cId)
-      .set('centerId', '1');
+      .set('centerId', this.centerId + '');
 
-    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetAllAdmissionForm';
+    const configUrl = this.apiContext.host + this.apiCustomer.getAllAdmissionForm;
     this.http.get<RegisterForm[]>(configUrl, {params: body}).toPromise().then(res => {
         console.log(res);
         const tempList = res;
@@ -156,7 +181,7 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
     const splitted = this.registerStudent.Dob.split('-', 3);
     this.registerStudent.Dob = splitted[1] + '/' + splitted[2] + '/' + splitted[0];
     console.log(this.registerStudent.Dob);
-    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/RegistrationStudent/RegisterCourse';
+    const configUrl = this.apiContext.host + this.apiCustomer.registerCourse;
     const body = new HttpParams()
       .set('Name', this.registerStudent.Name)
       .set('Email', this.registerStudent.Email)
@@ -171,9 +196,11 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
     this.http.post<any>(configUrl, body).toPromise().then(
       res => {
         console.log(res);
+        this.toastr.success('Bạn đã đăng kí thành công vào khoá học ' + this.courseModel.Name + '.', 'Chúc mừng!');
       },
       err => {
         console.log(err);
+        this.toastr.error('Có lỗi xảy ra. Xin vui lòng thử lại.', 'Oops!');
       }
     );
     // this.redirectToCourses();
@@ -197,11 +224,97 @@ export class CourseDetailComponent implements OnInit, AfterViewInit {
       Parent_Name: '',
       Parent_Gmail: '',
       Parent_Phone: '',
-      CenterId: 1
-    };
+      CenterId: this.centerId
+    }
+    ;
   }
 
   setradio(b: boolean) {
     this.registerStudent.Sex = b;
   }
+
+
+  checkValidName() {
+    if (this.registerStudent.Name != null) {
+      this.registerStudent.Name = this.formatText(this.registerStudent.Name);
+    }
+    if (this.registerStudent.Name == null || this.registerStudent.Name === '') {
+      this.errorMsgName = 'Tên học sinh không được bỏ trống.';
+      return false;
+    } else {
+      this.errorMsgName = '';
+      return true;
+    }
+  }
+
+  checkValidEmail() {
+    if (this.registerStudent.Email != null) {
+      this.registerStudent.Email = this.formatText(this.registerStudent.Email);
+    }
+    const regex = /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm;
+    if (this.registerStudent.Email == null || this.registerStudent.Email === '') {
+      this.errorMsgMail = 'Email không được bỏ trống.';
+      return false;
+    } else if (!regex.test(this.registerStudent.Email)) {
+      this.errorMsgMail = 'Định dạng email không đúng.';
+      return false;
+    } else {
+      this.errorMsgMail = '';
+      return true;
+    }
+  }
+
+  checkValidPhone() {
+    if (this.registerStudent.Phone != null) {
+      this.registerStudent.Phone = this.formatText(this.registerStudent.Phone);
+    }
+    const regex = /(09|03)+([0-9]{8})\b/g;
+    if (this.registerStudent.Phone == null || this.registerStudent.Phone === '') {
+      this.errorMsgPhone = 'Số điện thoại không được bỏ trống.';
+      return false;
+    } else if (!regex.test(this.registerStudent.Phone)) {
+      this.errorMsgPhone = 'Định dạng số điện thoại không đúng.';
+      return false;
+    } else {
+      this.errorMsgPhone = '';
+      return true;
+    }
+  }
+
+  checkValidDob() {
+    if (this.registerStudent.Dob != null) {
+      this.registerStudent.Phone = this.formatText(this.registerStudent.Phone + '');
+    }
+    if (this.registerStudent.Phone == null || this.registerStudent.Phone === '') {
+      this.errorMsgDob = 'Ngày sinh không được bỏ trống.';
+      return false;
+    } else {
+      this.errorMsgDob = '';
+      return true;
+    }
+  }
+
+  checkValidFields() {
+    this.checkValidName();
+    this.checkValidEmail();
+    this.checkValidPhone();
+    this.checkValidDob();
+    if (this.checkValidName() && this.checkValidEmail() && this.checkValidPhone() && this.checkValidDob()) {
+      this.submitEnroll();
+    } else {
+      this.toastr.warning('Something is missing.', 'Alert!');
+    }
+  }
+
+  isInputNumber(evt) {
+    const c = String.fromCharCode(evt.which);
+    if (!(/[0-9]/.test(c))) {
+      evt.preventDefault();
+    }
+  }
+
+  formatText(s: string) {
+    return s.trim().replace(/\s\s+/g, ' ');
+  }
+
 }

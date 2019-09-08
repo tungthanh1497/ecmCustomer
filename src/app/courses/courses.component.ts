@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Program} from '../models/program';
 import {Course} from '../models/course';
+import {APIContext, APICustomer} from '../APIContext';
+import {HeaderMenuComponent} from '../header-menu/header-menu.component';
+import {UrlCustomer} from '../SiteUrlContext';
 
 @Component({
   selector: 'app-courses',
@@ -20,30 +23,45 @@ import {Course} from '../models/course';
     , '../../assets/css/responsive.css']
 })
 export class CoursesComponent implements OnInit {
+  apiContext = new APIContext();
+  apiCustomer = new APICustomer();
+  centerId: number;
+  urlCustomer = new UrlCustomer();
 
   isAllCourses: boolean;
   programId: number;
   programName: string;
   coursesList: Course[];
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {
+  }
+
+  redirectToUrl(url: string) {
+    HeaderMenuComponent.currentUrl = url;
+    this.router.navigateByUrl(url);
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('pId'));
-    if (this.route.snapshot.paramMap.get('pId') == null) {
-      this.isAllCourses = true;
-    } else {
-      this.isAllCourses = false;
-      this.programId = +this.route.snapshot.paramMap.get('pId');
-    }
-    if (this.programId == null) {
-      this.getAllCourses();
-    } else if (isNaN(this.programId)) {
+    if (HeaderMenuComponent.centerId == null) {
+      console.log('hic');
       //redirect error
     } else {
-      this.getProgramById(this.programId);
-      this.getAllCoursesByProgram(this.programId);
+      this.centerId = HeaderMenuComponent.centerId;
+      console.log(this.route.snapshot.paramMap.get('pId'));
+      if (this.route.snapshot.paramMap.get('pId') == null) {
+        this.isAllCourses = true;
+      } else {
+        this.isAllCourses = false;
+        this.programId = +this.route.snapshot.paramMap.get('pId');
+      }
+      if (this.programId == null) {
+        this.getAllCourses();
+      } else if (isNaN(this.programId)) {
+        //redirect error
+      } else {
+        this.getProgramById(this.programId);
+        this.getAllCoursesByProgram(this.programId);
+      }
     }
   }
 
@@ -51,9 +69,9 @@ export class CoursesComponent implements OnInit {
   getAllCoursesByProgram(pId: number) {
     const body = new HttpParams()
       .set('programId', '' + pId)
-      .set('centerId', '1');
+      .set('centerId', this.centerId + '');
 
-    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetAllCourseFollowProgram';
+    const configUrl = this.apiContext.host + this.apiCustomer.getAllCourseFollowProgram;
     this.http.get<Course[]>(configUrl, {params: body}).toPromise().then(res => {
         console.log(res);
         this.coursesList = res;
@@ -66,9 +84,9 @@ export class CoursesComponent implements OnInit {
 
   getAllCourses() {
     const body = new HttpParams()
-      .set('centerId', '1');
+      .set('centerId', this.centerId + '');
 
-    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetAllCourse';
+    const configUrl = this.apiContext.host + this.apiCustomer.getAllCourse;
     this.http.get<Course[]>(configUrl, {params: body}).toPromise().then(res => {
         console.log(res);
         this.coursesList = res;
@@ -91,9 +109,9 @@ export class CoursesComponent implements OnInit {
   private getProgramById(pId: number) {
     const body = new HttpParams()
       .set('programId', '' + pId)
-      .set('centerId', '1');
+      .set('centerId', this.centerId + '');
 
-    const configUrl = 'https://educationcentermanagementapi-dev-as.azurewebsites.net/api/Customer/GetProgramById';
+    const configUrl = this.apiContext.host + this.apiCustomer.getProgramById;
     this.http.get<Program>(configUrl, {params: body}).toPromise().then(res => {
         console.log(res);
         this.programName = res.Name;

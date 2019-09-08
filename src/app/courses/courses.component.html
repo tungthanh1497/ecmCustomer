@@ -40,7 +40,8 @@
                 <!--            <a class="cat" href="courses/{{courseModel.Id}}">View Courses</a>-->
 
                 <!--                <a class="cat" href="courses/">{{courseModel.Name}}</a>-->
-                <a href="course-detail/{{courseModel.Id}}">
+                <a href="javascript:;"
+                   (click)="redirectToUrl(centerId+'/'+urlCustomer.courseDetail+'/'+courseModel.Id)">
                   <h4>{{courseModel.Name}}</h4></a>
                 <!--              <ul class="list" style="display: inline-block">-->
                 <!--                <li><a href="#"><i class="lnr lnr-users"></i> 355</a></li>-->
